@@ -1,5 +1,6 @@
 package screens;
 
+import appium.AppiumUtilities;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -65,18 +66,18 @@ public class SearchScreen extends PhoneLookupScreen {
 
     private void enterItemName(String itemNameText) {
         itemNameField.sendKeys(itemNameText);
-        if (getPlatform().equalsIgnoreCase("Android")){
-            hideKeyboard();
+        if (AppiumUtilities.getPlatform(driver).equalsIgnoreCase("Android")){
+            AppiumUtilities.hideKeyboard(driver);
         }
     }
 
     private void selectiOSOperatingSystemItem() {
-        if (getPlatform().equalsIgnoreCase("IOS")){
+        if (AppiumUtilities.getPlatform(driver).equalsIgnoreCase("IOS")){
             if (iOSOperatingSystemItem.getAttribute("value").equalsIgnoreCase("0")) {
                 iOSOperatingSystemItem.click();
             }
         }
-        else if (getPlatform().equalsIgnoreCase("ANDROID")){
+        else if (AppiumUtilities.getPlatform(driver).equalsIgnoreCase("ANDROID")){
             if (iOSOperatingSystemItem.getAttribute("checked").equalsIgnoreCase("false")) {
                 iOSOperatingSystemItem.click();
             }
@@ -84,12 +85,12 @@ public class SearchScreen extends PhoneLookupScreen {
     }
 
     private void selectAndroidOperatingSystemItem() {
-        if (getPlatform().toUpperCase().equals("IOS")){
+        if (AppiumUtilities.getPlatform(driver).toUpperCase().equals("IOS")){
             if (androidOperatingSystemItem.getAttribute("value").equalsIgnoreCase("0")) {
                 androidOperatingSystemItem.click();
             }
         }
-        else if (getPlatform().equalsIgnoreCase("ANDROID")){
+        else if (AppiumUtilities.getPlatform(driver).equalsIgnoreCase("ANDROID")){
             if (androidOperatingSystemItem.getAttribute("checked").equalsIgnoreCase("false")) {
                 androidOperatingSystemItem.click();
             }
@@ -97,12 +98,12 @@ public class SearchScreen extends PhoneLookupScreen {
     }
 
     private void selectWindowsOperatingSystemItem() {
-        if(getPlatform().equalsIgnoreCase("IOS")){
+        if(AppiumUtilities.getPlatform(driver).equalsIgnoreCase("IOS")){
             if (windowsOperatingSystemItem.getAttribute("value").equalsIgnoreCase("0")) {
                 windowsOperatingSystemItem.click();
             }
         }
-        else if (getPlatform().equalsIgnoreCase("ANDROID")){
+        else if (AppiumUtilities.getPlatform(driver).equalsIgnoreCase("ANDROID")){
             if (windowsOperatingSystemItem.getAttribute("checked").equalsIgnoreCase("false")) {
                 windowsOperatingSystemItem.click();
             }
@@ -110,12 +111,12 @@ public class SearchScreen extends PhoneLookupScreen {
     }
 
     private void selectBlackBerryOperatingSystemItem() {
-        if(getPlatform().equalsIgnoreCase("IOS")){
+        if(AppiumUtilities.getPlatform(driver).equalsIgnoreCase("IOS")){
             if (blackBerryOperatingSystemItem.getAttribute("value").equalsIgnoreCase("0")) {
                 blackBerryOperatingSystemItem.click();
             }
         }
-        else if (getPlatform().equalsIgnoreCase("ANDROID")){
+        else if (AppiumUtilities.getPlatform(driver).equalsIgnoreCase("ANDROID")){
             if (blackBerryOperatingSystemItem.getAttribute("checked").equalsIgnoreCase("false")) {
                 blackBerryOperatingSystemItem.click();
             }
@@ -123,7 +124,7 @@ public class SearchScreen extends PhoneLookupScreen {
     }
 
     private void selectManufacturer(String manufacturer){
-        if (getPlatform().equals("IOS")) {
+        if (AppiumUtilities.getPlatform(driver).equals("IOS")) {
             manufacturerField.click();
 
             MobileElement picker = (MobileElement) driver.findElement(By.className("XCUIElementTypePickerWheel"));
@@ -147,10 +148,10 @@ public class SearchScreen extends PhoneLookupScreen {
                 lastValue = picker.getAttribute("value");
             }
 
-            hideKeyboard();
+            AppiumUtilities.hideKeyboard(driver);
 
         }
-        else if (getPlatform().equals("ANDROID")) {
+        else if (AppiumUtilities.getPlatform(driver).equals("ANDROID")) {
             manufacturerField.click();
             driver.findElementByXPath(".//*[@text='" + manufacturer + "']").click();
         }

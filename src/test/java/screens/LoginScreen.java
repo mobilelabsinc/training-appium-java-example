@@ -1,5 +1,6 @@
 package screens;
 
+import appium.AppiumUtilities;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -24,12 +25,12 @@ public class LoginScreen extends PhoneLookupScreen {
 
     private void enterUserName(String username){
         usernameField.sendKeys(username);
-        hideKeyboard();
+        AppiumUtilities.hideKeyboard(driver);
     }
 
     private void enterPassword(String password){
         passwordField.sendKeys(password);
-        hideKeyboard();
+        AppiumUtilities.hideKeyboard(driver);
     }
 
     private void clickSignIn(){

@@ -1,12 +1,8 @@
 import appium.AppiumController;
 import appium.AppiumUtilities;
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
-import org.testng.Assert;
+import org.junit.Assert;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.*;
-import screens.LoginScreen;
-import screens.SearchScreen;
 
 import java.io.File;
 import java.io.FileReader;
@@ -15,15 +11,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
+public class FirstTest extends AppiumController {
 
-public class TestPhoneLookup extends AppiumController {
-
-    protected LoginScreen loginScreen;
-    protected SearchScreen searchScreen;
-
-    @Factory (dataProvider = "deviceList")
-    public TestPhoneLookup(String udid, String platformName,
+    @Factory(dataProvider = "deviceList")
+    public FirstTest(String udid, String platformName,
                            String bundleID, String automationName) throws Exception {
         this.udid = udid;
         this.bundleID = bundleID;
@@ -65,48 +58,43 @@ public class TestPhoneLookup extends AppiumController {
         //start the appium connection here
         startAppium();
 
-        loginScreen = new LoginScreen(driver);
-        searchScreen = new SearchScreen(driver);
-    }
-
-    @Test
-    @Feature("Login")
-    @Story("Valid Login")
-    @Description("Verifies that the Search Button appears on the Search Screen after entering the username and password and then clicking the Sign In button on the login screen")
-    public void loginTest() throws Exception {
-        try {
-            AppiumUtilities.getScreenshot(driver, "Launch Screen");
-            loginScreen.login("mobilelabs", "demo");
-            Assert.assertTrue(searchScreen.isSearchButtonPresent());
-            AppiumUtilities.getScreenshot(driver, "Search Screen");
-        } catch (Exception ex) {
-
-            //Get screenshot if test fails
-            AppiumUtilities.getScreenshot(driver, "Failed - Exception");
-            throw ex;
-        }
-    }
-
-    @Test
-    @Feature("Search")
-    @Story("Valid Search")
-    @Description("Verifies that the list of items is returned after filling out the search form")
-    public void searchTest() throws Exception {
-        try {
-            AppiumUtilities.getScreenshot(driver, "Login Screen");
-            searchScreen.fillSearchForm("Droid Charge", "Samsung", true, true, false, false, "In Stock");
-            AppiumUtilities.getScreenshot(driver, "Search Results");
-        } catch (Exception ex) {
-
-            //Get screenshot if test fails
-            AppiumUtilities.getScreenshot(driver, "Failed - Exception");
-            throw ex;
-        }
+        //Set an implicit wait to handle animation and loading times
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @AfterClass
     public void tearDown() throws Exception {
         stopAppium();
+    }
+
+    @Test
+    public void firstTest() throws Exception {
+        //Find UserName field and enter in UserName
+        WebElement userField = driver.findElementById("com.android.controls:id/usernameEditText");
+        userField.clear();
+        userField.sendKeys("mobilelabs");
+
+        //hide the keyboard if it is still displayed
+        AppiumUtilities.hideKeyboard(driver);
+
+        //Find the Password field and enter in password
+        WebElement passField = driver.findElementById("com.android.controls:id/passwordEditText");
+        passField.clear();
+        passField.sendKeys("demo");
+
+        //hide the keyboard if it is still displayed
+        AppiumUtilities.hideKeyboard(driver);
+
+        WebElement rememberButton = driver.findElementById("com.android.controls:id/rememberMe");
+        rememberButton.click();
+
+        //Find the Sign In button and click it
+        WebElement signinButton = driver.findElementById("com.android.controls:id/loginButton");
+        signinButton.click();
+
+        //Make sure the next page is displayed
+        WebElement itemLabel = driver.findElementById("com.android.controls:id/criteria1Text");
+        Assert.assertEquals(true, itemLabel.isDisplayed());
     }
 
 }

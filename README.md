@@ -40,8 +40,13 @@ android.ids=
 android.bundle.id=
 ```
 
-Run the tests with your IDEs test runner or:
+Run all tests with your IDEs test runner or:
 
-`mvn test`
+`mvn clean test allure:serve`
+
+To run a specific test:
+
+`mvn clean -Dtest=[TEST_NAME_HERE] test allure:serve`
+
 
 

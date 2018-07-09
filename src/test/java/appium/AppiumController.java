@@ -4,12 +4,14 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
 import java.util.List;
 
 public class AppiumController {
+
     protected AppiumDriver driver;
     private DesiredCapabilities capabilities;
 
